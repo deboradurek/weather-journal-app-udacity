@@ -6,6 +6,9 @@ projectData = {};
 // Require Express to run server and routes
 const express = require('express');
 
+// Require Path to join internal paths
+const path = require('path');
+
 // Start up an instance of app
 const app = express();
 
@@ -20,7 +23,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static('website'));
+// app.use(express.static('website'));
+app.use(express.static(path.join(__dirname, 'website')));
 
 // Setup Server
 const port = 8080;
@@ -40,9 +44,13 @@ function getData(req, res) {
 app.post('/add', postData);
 
 function postData(req, res) {
+  let weatherData = req.body;
+
   projectData = {
-    temperature: req.body.temperature,
-    date: req.body.date,
-    userInfo: req.body.userInfo,
+    temperature: weatherData.main.temp,
+    date: weatherData.newDate,
+    userFeelings: weatherData.userFeelings,
   };
+  console.log(weatherData);
+  res.send({ status: 'Success' });
 }
