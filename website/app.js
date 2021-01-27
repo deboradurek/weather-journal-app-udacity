@@ -1,36 +1,74 @@
 /* Global Variables */
 
 // Base URL for API call
-const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
+const baseURL = 'http://api.openweathermap.org/data/2.5/weather';
 // Personal API Key for OpenWeatherMap API
 const apiKey = 'eb3e0c855e59cab3f36e41ccbf62d4f5';
-// Select element that contains zip code value
-const zipCode = document.getElementById('zip').value;
+
+// Create a new date instance dynamically with JS
+let d = new Date();
+let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
 
 // Event listener to add function to Generate button
 document.getElementById('generate').addEventListener('click', performAction);
 
 function performAction(e) {
-  console.log('Hello');
-  getWeather(baseURL, zipCode, apiKey);
+  // Select element that contains zip code value
+  const zipCode = document.getElementById('zip').value;
+  const userFeelings = document.getElementById('feelings').value;
+
+  getWeather(baseURL, zipCode, apiKey).then(function (data) {
+    postWeatherUser('/add', { ...data, userFeelings, newDate }).then(
+      function () {
+        getAppInfo('/all').then(function (appInfo) {
+          console.log(appInfo);
+        });
+      }
+    );
+  });
 }
 
 /* Function to GET Web API Data*/
 const getWeather = async (baseURL, zipCode, apiKey) => {
-  const response = await fetch(baseURL + zipCode + apiKey);
+  const response = await fetch(
+    `${baseURL}?zip=${zipCode}&units=metric&appid=${apiKey}`
+  );
 
   try {
     const data = await response.json();
-    console.log(data);
+    return data;
   } catch (error) {
     console.log('error', error);
   }
 };
 
 /* Function to POST data */
+const postWeatherUser = async (url = '', data = {}) => {
+  const response = await fetch(url, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  try {
+    const status = await response.json();
+    return status;
+  } catch (error) {
+    console.log('error', error);
+  }
+};
 
 /* Function to GET Project Data */
+const getAppInfo = async (url = '') => {
+  const response = await fetch(url);
 
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
+  try {
+    const appInfo = await response.json();
+    return appInfo;
+  } catch (error) {
+    console.log('error', error);
+  }
+};
