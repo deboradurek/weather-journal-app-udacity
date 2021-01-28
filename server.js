@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Initialize the main project folder
-// app.use(express.static('website'));
 app.use(express.static(path.join(__dirname, 'website')));
 
 // Setup Server
@@ -51,6 +50,5 @@ function postData(req, res) {
     date: weatherData.newDate,
     userFeelings: weatherData.userFeelings,
   };
-  console.log(weatherData);
   res.send({ status: 'Success' });
 }
