@@ -13,16 +13,13 @@ let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
 document.getElementById('generate').addEventListener('click', performAction);
 
 function performAction(e) {
-  // Select element that contains zip code value
   const zipCode = document.getElementById('zip').value;
   const userFeelings = document.getElementById('feelings').value;
 
   getWeather(baseURL, zipCode, apiKey).then(function (data) {
     postWeatherUser('/add', { ...data, userFeelings, newDate }).then(
       function () {
-        getAppInfo('/all').then(function (appInfo) {
-          console.log(appInfo);
-        });
+        getAppInfo('/all');
       }
     );
   });
@@ -67,7 +64,9 @@ const getAppInfo = async (url = '') => {
 
   try {
     const appInfo = await response.json();
-    return appInfo;
+    document.getElementById('date').innerHTML = appInfo.date;
+    document.getElementById('temp').innerHTML = appInfo.temperature;
+    document.getElementById('content').innerHTML = appInfo.userFeelings;
   } catch (error) {
     console.log('error', error);
   }
