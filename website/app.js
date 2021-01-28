@@ -19,7 +19,7 @@ function performAction(e) {
   getWeather(baseURL, zipCode, apiKey).then(function (data) {
     postWeatherUser('/add', { ...data, userFeelings, newDate }).then(
       function () {
-        getAppInfo('/all');
+        updateUI('/all');
       }
     );
   });
@@ -59,14 +59,18 @@ const postWeatherUser = async (url = '', data = {}) => {
 };
 
 /* Function to GET Project Data */
-const getAppInfo = async (url = '') => {
+const updateUI = async (url = '') => {
   const response = await fetch(url);
 
   try {
     const appInfo = await response.json();
-    document.getElementById('date').innerHTML = appInfo.date;
-    document.getElementById('temp').innerHTML = appInfo.temperature;
-    document.getElementById('content').innerHTML = appInfo.userFeelings;
+    document.getElementById('date').innerHTML = `Date: ${appInfo.date}`;
+    document.getElementById(
+      'temp'
+    ).innerHTML = `Temperature: ${appInfo.temperature} °C`;
+    document.getElementById(
+      'content'
+    ).innerHTML = `Your feelings: ${appInfo.userFeelings}`;
   } catch (error) {
     console.log('error', error);
   }
