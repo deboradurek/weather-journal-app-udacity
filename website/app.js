@@ -64,13 +64,25 @@ const updateUI = async (url = '') => {
 
   try {
     const appInfo = await response.json();
-    document.getElementById('date').innerHTML = `Date: ${appInfo.date}`;
     document.getElementById(
-      'temp'
-    ).innerHTML = `Temperature: ${appInfo.temperature} °C`;
+      'city'
+    ).innerHTML = `${appInfo.cityName}, ${appInfo.country}`;
+    document.getElementById('date').innerHTML = `Date: ${appInfo.date}`;
+    document.getElementById('temp').innerHTML = `${Math.round(
+      appInfo.temperature
+    )} <span>°C</span>`;
+    document.getElementById('description-weather').innerHTML =
+      appInfo.descriptionWeather;
+    document.getElementById('temp-min').innerHTML = `${Math.round(
+      appInfo.tempMin
+    )} <span>°</span>`;
+    document.getElementById('temp-max').innerHTML = `${Math.round(
+      appInfo.tempMax
+    )} <span>°</span>`;
+    document.getElementById('humidity').innerHTML = `${appInfo.humidity}%`;
     document.getElementById(
       'content'
-    ).innerHTML = `Your feelings: ${appInfo.userFeelings}`;
+    ).innerHTML = `I am feeling ${appInfo.userFeelings}.`;
   } catch (error) {
     console.log('error', error);
   }

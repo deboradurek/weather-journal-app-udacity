@@ -46,9 +46,16 @@ function postData(req, res) {
   let weatherData = req.body;
 
   projectData = {
-    temperature: weatherData.main.temp,
+    cityName: weatherData.name,
+    country: weatherData.sys.country,
     date: weatherData.newDate,
+    temperature: weatherData.main.temp,
+    descriptionWeather: weatherData.weather[0].description,
+    tempMin: weatherData.main.temp_min,
+    tempMax: weatherData.main.temp_max,
+    humidity: weatherData.main.humidity,
     userFeelings: weatherData.userFeelings,
   };
+
   res.send({ status: 'Success' });
 }
