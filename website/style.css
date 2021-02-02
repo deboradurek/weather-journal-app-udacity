@@ -8,28 +8,27 @@ body {
 main {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 100vh;
+  grid-template-rows: minmax(100vh, 100%);
   align-items: center;
   justify-items: center;
-  background: #f23557;
+  background-image: url('./images/stars-bckg.jpg');
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: 100% 100%;
 }
 
 #app {
   display: grid;
   grid-auto-rows: minmax(50px, auto);
   grid-auto-columns: 700px;
-  /* height: 100vh; */
   color: #ffffff;
   justify-content: center;
   grid-gap: 2rem;
   font-size: 20px;
-  /* font-family: 'Oswald', sans-serif; */
   padding: 40px;
-  border: solid 3px #f05470;
+  background-image: linear-gradient(180deg, #91daf7, #059cd8);
   border-radius: 20px;
-}
-
-.holder {
+  margin: 40px;
 }
 
 .headline {
@@ -37,19 +36,11 @@ main {
   font-weight: bold;
   text-align: center;
   margin-bottom: 25px;
+  color: #1b3f81;
 }
 
 .feel {
   text-align: center;
-}
-
-#date {
-}
-
-#temp {
-}
-
-#content {
 }
 
 label {
@@ -106,7 +97,18 @@ button:hover {
   background: #435375;
 }
 
+#error-message {
+  color: #d61414;
+  text-align: left;
+  margin-bottom: 0;
+}
+
 .entry {
+  display: none;
+}
+
+.entry-show {
+  display: block;
 }
 
 .title {
@@ -124,11 +126,103 @@ button:hover {
   border-radius: 8px;
   padding: 20px 30px;
   height: 300px;
+  display: grid;
+  /* grid-template-columns: repeat(2, 1fr); */
+  grid-template-columns: 35% 50% 15%;
+  grid-template-rows: 15% 70% 15%;
+  grid-auto-flow: column;
 }
 
-span {
+#city {
+  grid-column: 1 / 4;
+  justify-self: center;
+  border-bottom: solid 1px #73c7fc;
+}
+
+#city h2 {
+  margin: 0;
+}
+
+#description-weather {
+  text-transform: capitalize;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #73c7fc;
+}
+
+#weather-icon {
+  justify-self: right;
+  align-self: center;
+}
+
+#date {
   font-size: 1rem;
-  vertical-align: 4px;
+  align-self: end;
+  color: #73c7fc;
+}
+
+.temperatures {
+  display: flex;
+  flex-direction: row;
+  justify-self: start;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#temp {
+  display: flex;
+  flex-direction: row;
+}
+
+#temp h1 {
+  font-size: 9rem;
+  margin: 0;
+  line-height: 0.8;
+}
+
+#temp span {
+  font-size: 2rem;
+}
+
+.temp-min-max {
+  align-self: center;
+  margin-left: 15px;
+  font-size: 1rem;
+  color: #73c7fc;
+}
+
+.temp-min-max #temp-max {
+  margin-bottom: 10px;
+}
+
+.humidity-ctn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #73c7fc;
+}
+
+.humidity-icon {
+  width: 30px;
+  margin-right: 2px;
+}
+
+.content-ctn {
+  display: flex;
+  align-items: flex-end;
+}
+
+.person-icon {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+#content {
+  text-align: left;
+  font-size: 1.2rem;
 }
 
 /* Reset style for HTML element on active to have no border*/

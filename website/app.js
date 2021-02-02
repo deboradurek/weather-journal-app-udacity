@@ -7,21 +7,27 @@ const apiKey = 'eb3e0c855e59cab3f36e41ccbf62d4f5';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
+let newDate = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
 
 // Event listener to add function to Generate button
-document.getElementById('generate').addEventListener('click', performAction);
+document.getElementById('app').addEventListener('submit', performAction);
 
 function performAction(e) {
+  e.preventDefault();
   const zipCode = document.getElementById('zip').value;
   const userFeelings = document.getElementById('feelings').value;
 
+  clearInput();
   getWeather(baseURL, zipCode, apiKey).then(function (data) {
-    postWeatherUser('/add', { ...data, userFeelings, newDate }).then(
-      function () {
-        updateUI('/all');
-      }
-    );
+    if (data.cod === 200) {
+      postWeatherUser('/add', { ...data, userFeelings, newDate }).then(
+        function () {
+          updateUI('/all');
+        }
+      );
+    } else {
+      document.getElementById('error-message').innerHTML = data.message;
+    }
   });
 }
 
@@ -64,22 +70,38 @@ const updateUI = async (url = '') => {
 
   try {
     const appInfo = await response.json();
+
+    // Show Entry Holder
+    document.querySelector('.entry').classList.add('entry-show');
+
+    // Get City
     document.getElementById(
       'city'
-    ).innerHTML = `${appInfo.cityName}, ${appInfo.country}`;
-    document.getElementById('date').innerHTML = `Date: ${appInfo.date}`;
-    document.getElementById('temp').innerHTML = `${Math.round(
+    ).innerHTML = `<h2>${appInfo.cityName}, ${appInfo.country}</h2`;
+    // Get Date
+    document.getElementById('date').innerHTML = `Today is ${appInfo.date}`;
+    // Get Icon
+    const src = `http://openweathermap.org/img/wn/${appInfo.weatherIcon}@4x.png`;
+    document.getElementById('weather-icon').setAttribute('src', src);
+    // Get Temperature
+    document.getElementById('temp').innerHTML = `<h1>${Math.round(
       appInfo.temperature
-    )} <span>°C</span>`;
-    document.getElementById('description-weather').innerHTML =
-      appInfo.descriptionWeather;
-    document.getElementById('temp-min').innerHTML = `${Math.round(
-      appInfo.tempMin
-    )} <span>°</span>`;
-    document.getElementById('temp-max').innerHTML = `${Math.round(
+    )}</h1><span>°C</span>`;
+    // Get Weather Description
+    document.getElementById(
+      'description-weather'
+    ).innerHTML = `&#9729 ${appInfo.descriptionWeather}`;
+    // Get Temp Max
+    document.getElementById('temp-max').innerHTML = `&#8593; ${Math.round(
       appInfo.tempMax
-    )} <span>°</span>`;
+    )}<span>°</span>`;
+    // Get Temp Min
+    document.getElementById('temp-min').innerHTML = `&#8595; ${Math.round(
+      appInfo.tempMin
+    )}<span>°</span>`;
+    // Get Humidity
     document.getElementById('humidity').innerHTML = `${appInfo.humidity}%`;
+    // Get User Info
     document.getElementById(
       'content'
     ).innerHTML = `I am feeling ${appInfo.userFeelings}.`;
@@ -87,3 +109,9 @@ const updateUI = async (url = '') => {
     console.log('error', error);
   }
 };
+
+// Function to clear input
+function clearInput() {
+  document.getElementById('error-message').innerHTML = '';
+  document.querySelector('.entry').classList.remove('entry-show');
+}
