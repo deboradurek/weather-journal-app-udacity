@@ -49,6 +49,7 @@ function postData(req, res) {
     cityName: weatherData.name,
     country: weatherData.sys.country,
     date: weatherData.newDate,
+    weatherIcon: weatherData.weather[0].icon,
     temperature: weatherData.main.temp,
     descriptionWeather: weatherData.weather[0].description,
     tempMin: weatherData.main.temp_min,
