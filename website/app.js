@@ -6,7 +6,7 @@ const baseURL = 'http://api.openweathermap.org/data/2.5/weather';
 const apiKey = 'eb3e0c855e59cab3f36e41ccbf62d4f5';
 
 // Event listener to add function to Generate button
-document.getElementById('app').addEventListener('submit', performAction);
+document.getElementById('generate').addEventListener('click', performAction);
 
 function performAction(e) {
   e.preventDefault();

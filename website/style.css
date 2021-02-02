@@ -146,13 +146,14 @@ button:hover {
 #description-weather {
   text-transform: capitalize;
   font-size: 1.2rem;
+  text-align: left;
   font-style: italic;
   color: #73c7fc;
 }
 
 #weather-icon {
-  justify-self: right;
-  align-self: center;
+  float: right;
+  width: 75%;
 }
 
 #date {
