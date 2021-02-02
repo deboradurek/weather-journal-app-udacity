@@ -43,7 +43,7 @@ function getData(req, res) {
 app.post('/add', postData);
 
 function postData(req, res) {
-  let {
+  const {
     name,
     weather,
     newDate,
@@ -52,18 +52,18 @@ function postData(req, res) {
     main: { temp_min, temp_max, temp, humidity },
   } = req.body;
 
-  const [extraInfo] = weather;
+  const [descriptionIcon] = weather;
 
   projectData = {
     cityName: name,
     country,
     date: newDate,
-    weatherIcon: extraInfo.icon,
+    weatherIcon: descriptionIcon.icon,
     temperature: temp,
-    descriptionWeather: extraInfo.description,
+    descriptionWeather: descriptionIcon.description,
     tempMin: temp_min,
     tempMax: temp_max,
-    humidity: humidity,
+    humidity,
     userFeelings,
   };
 

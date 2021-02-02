@@ -5,17 +5,18 @@ const baseURL = 'http://api.openweathermap.org/data/2.5/weather';
 // Personal API Key for OpenWeatherMap API
 const apiKey = 'eb3e0c855e59cab3f36e41ccbf62d4f5';
 
-// Create a new date instance dynamically with JS
-const d = new Date();
-const newDate = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-
 // Event listener to add function to Generate button
 document.getElementById('app').addEventListener('submit', performAction);
 
 function performAction(e) {
   e.preventDefault();
+
   const zipCode = document.getElementById('zip').value;
   const userFeelings = document.getElementById('feelings').value;
+
+  // Create a new date instance dynamically with JS
+  const d = new Date();
+  const newDate = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
 
   clearInput();
   const weatherApiURL = `${baseURL}?zip=${zipCode}&units=metric&appid=${apiKey}`;
@@ -30,6 +31,7 @@ function performAction(e) {
   });
 }
 
+/* Generic request function for Get and Post methods */
 const request = async (url, data) => {
   let options = {};
   if (data) {
